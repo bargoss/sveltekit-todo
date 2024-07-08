@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build -t bargos/emirsapp .
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Push the Docker image
+        run: |
+          docker tag bargos/emirsapp bargos/emirsapp:latest
+          docker push bargos/emirsapp:latest
+          docker tag bargos/emirsapp bargos/emirsapp:${{ github.run_number }}
+          docker push bargos/emirsapp:${{ github.run_number }}
