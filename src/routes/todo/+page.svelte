@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import { CheckSquareFill, Square, Trash } from 'svelte-bootstrap-icons';
 	import { v4 as uuidv4 } from 'uuid';
-
+	import axios from 'axios';
+	const baransappUrl = "https://baransapp3.azurewebsites.net"
 	// $: console.log('Todo =>', todoArray);
 	// $: console.log('Error', fetchError);
 
@@ -63,7 +64,7 @@
 	async function getTodoArray() {
 		// prettier-ignore
 		try {
-			const response = await fetch('/api/todo_items');
+			const response = await axios.get(`${baransappUrl}/api/v1/todo_items`);
 			if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
 			todoArray = await response.json();
 		} catch (error) { fetchError = error; }
@@ -92,17 +93,26 @@
 		// prettier-ignore
 		try {
 			// Perhaps keep a queue for requests, and after it is empty, then update the list
-			const response = await fetch('/api/todo_items', {
-				method: 'POST',
-				body: JSON.stringify({
-					title: userInput,
-					completed: false
-				})
+			//const response = await fetch('/api/todo_items', {
+			//	method: 'POST',
+			//	body: JSON.stringify({
+			//		title: userInput,
+			//		completed: false
+			//	})
+			//});
+			//if (!response.ok) { throw new Error(`${response.status} ${response.statusText}`); }
+			//getTodoArray();
+			
+			// like that but with axios
+			
+			const response = await axios.post(`${baransappUrl}/api/v1/todo_items`, {
+				title: userInput,
+				completed: false
 			});
+			
 			if (!response.ok) { throw new Error(`${response.status} ${response.statusText}`); }
-			// resetInactivityTimer()
-			// getQueue.push(getTodoArray())
 			getTodoArray();
+			
 		} catch (error) { fetchError = error; }
 	}
 
@@ -115,9 +125,17 @@
 
 		// prettier-ignore
 		try {
-			const response = await fetch(`/api/todo_items/${idToDelete}`, { method: 'DELETE' });
-			if (!response.ok) {throw new Error(`${response.status} ${response.statusText}`);}
+			//const response = await fetch(`/api/todo_items/${idToDelete}`, { method: 'DELETE' });
+			//if (!response.ok) {throw new Error(`${response.status} ${response.statusText}`);}
+			//getTodoArray();
+			
+			// like that but with axios
+			
+			const response = await axios.delete(`${baransappUrl}/api/v1/todo_items/${idToDelete}`);
+			if (!response.ok) { throw new Error(`${response.status} ${response.statusText}`); }
 			getTodoArray();
+			
+			
 		} catch (error) { fetchError = error; }
 	}
 
@@ -137,15 +155,25 @@
 
 		// prettier-ignore
 		try {
-			const response = await fetch(`/api/todo_items/${targetID}`, 
-			{ 
-				method: 'PUT',
-				body: JSON.stringify({
-					completed: newTodo.completed
-				})
+			//const response = await fetch(`/api/todo_items/${targetID}`, 
+			//{ 
+			//	method: 'PUT',
+			//	body: JSON.stringify({
+			//		completed: newTodo.completed
+			//	})
+			//});
+			//if (!response.ok) {throw new Error(`${response.status} ${response.statusText}`);}
+			//getTodoArray();
+			
+			
+			// like that but with axios
+			
+			const response = await axios.put(`${baransappUrl}/api/v1/todo_items/${targetID}`, {
+				completed: newTodo.completed
 			});
-			if (!response.ok) {throw new Error(`${response.status} ${response.statusText}`);}
+			if (!response.ok) { throw new Error(`${response.status} ${response.statusText}`); }
 			getTodoArray();
+			
 		} catch (error) { fetchError = error; }
 	}
 

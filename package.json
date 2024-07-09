@@ -27,6 +27,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-node": "^5.2.0",
+		"axios": "^1.7.2",
 		"express": "^4.19.2",
 		"uuid": "^10.0.0"
 	}

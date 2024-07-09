@@ -6,7 +6,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: 'https://baransapp2-f9c9gyebftbseyb7.eastus-01.azurewebsites.net/api/v1',
+				target: 'https://baransapp3.azurewebsites.net/api/v1',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, '')
 			}
@@ -15,7 +15,7 @@ export default defineConfig({
 	build: {
 		proxy: {
 			'/api': {
-				target: 'https://baransapp2-f9c9gyebftbseyb7.eastus-01.azurewebsites.net/api/v1',
+				target: 'https://baransapp3.azurewebsites.net/api/v1',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, '')
 			}

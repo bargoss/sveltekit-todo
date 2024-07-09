@@ -7,9 +7,9 @@
 	let leaderboard = null;
 	let clickCounter = null;
 	let player = null;
-
+	
 	onMount(() => {
-		socket = new WebSocket('wss://baransapp2-f9c9gyebftbseyb7.eastus-01.azurewebsites.net/clicker');
+		socket = new WebSocket('wss://baransapp3.azurewebsites.net/clicker');
 
 		socket.onopen = function (event) {
 			console.log('WebSocket is open now.');
